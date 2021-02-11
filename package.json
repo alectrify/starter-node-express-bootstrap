@@ -1,11 +1,11 @@
 {
-  "name": "node-website-template",
+  "name": "starter-node-express-bootstrap",
   "version": "1.0.0",
   "main": "index.js",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AdoryVo/node-website-template.git"
+    "url": "git+https://github.com/alectrify/starter-node-express-bootstrap.git"
   },
   "scripts": {
     "sass": "sass src/custom.scss dist/styles/bootstrap.css",

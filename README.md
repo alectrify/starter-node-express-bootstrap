@@ -1,4 +1,4 @@
-# node-website-template
+# starter-node-express-bootstrap
 Use this template to initialize your Express, MongoDB, and Node.js web application or website with a basic structure and starter code stylized with Bootstrap.
 
 *Work In Progress*
