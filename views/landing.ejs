@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('layouts/head.ejs'); %>
+
+    <!-- Home Specific Tags -->
+    <meta name="description" content="A Node.js/Express website template stylized with Bootstrap.">
+    <link rel="canonical" href="https://adoryvo.github.io/website-template/"/>
+
+    <!-- Facebook: https://developers.facebook.com/docs/sharing/webmasters/ -->
+    <meta property="og:url" content="https://adoryvo.github.io/website-template/">
+    <meta property="og:title" content="Node.js/Express Website Template">
+    <meta property="og:description" content="A Node.js/Express website template stylized with Bootstrap.">
+    <meta property="og:type" content="website">
+    <!-- Insert preview image tag: https://ogp.me/ -->
+
+    <!-- Twitter: https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/markup -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@AdoryVo">
+    <meta name="twitter:creator" content="@AdoryVo">
+    <meta name="twitter:title" content="Node.js/Express Website Template">
+    <meta name="twitter:description" content="A Node.js/Express website template stylized with Bootstrap.">
+    <!-- Insert preview image tag -->
+
+    <title>ThinkCorp</title>
+</head>
+
+<body>
+<%- include('layouts/navbar'); %>
+
+<main>
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container text-center py-4 py-md-5">
+            <h1 class="display-5 font-italic"><i class="fa fa-splotch"></i> ThinkCorp</h1>
+            <p class="lead my-3">
+                Creating inventive solutions for complex problems
+            </p>
+            <p class="lead mb-0">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#signupModal">Get Started</button>
+                <a class="btn btn-info" href="#principles">Learn more</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Principles Section -->
+    <section id="principles" class="bg-primary text-dark">
+        <div class="container py-4 py-md-5">
+            <h1>Principles</h1>
+
+            <div class="row">
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-4">
+                            <h2>Modern</h2>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse massa velit,
+                                eleifend condimentum magna ut, pretium hendrerit erat. Morbi nec est porta, iaculis
+                                sapien eu, ultrices arcu.
+                            </p>
+                        </div>
+
+                        <div class="col-4">
+                            <h2>Diverse</h2>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse massa velit,
+                                eleifend condimentum magna ut, pretium hendrerit erat. Morbi nec est porta, iaculis
+                                sapien eu, ultrices arcu.
+                            </p>
+                        </div>
+
+                        <div class="col-4">
+                            <h2>Forward-thinking</h2>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse massa velit,
+                                eleifend condimentum magna ut, pretium hendrerit erat. Morbi nec est porta, iaculis
+                                sapien eu, ultrices arcu.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <img src="images/idea.png" alt="Man with an idea" class="w-100">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section -->
+    <section id="about" class="bg-info text-light">
+        <div class="container py-4 py-md-5">
+            <h1>About</h1>
+
+            <div class="row">
+                <div class="col-8">
+                    <h2>Our Company</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur fringilla sapien sed
+                        posuere.
+                        Aenean arcu tellus, pellentesque id tristique eget, pretium vel metus. Mauris eu mi mauris.
+                        Fusce ac
+                        laoreet dui. Fusce vitae velit nunc.
+                    </p>
+                    <ul>
+                        <li>
+                            Lorem ipsum dolor sit amet
+                        </li>
+                        <li>
+                            Lorem ipsum dolor sit amet
+                        </li>
+                        <li>
+                            Lorem ipsum dolor sit amet
+                        </li>
+                    </ul>
+
+                    <h2>Our Mission</h2>
+                    <p>
+                        Vestibulum enim mauris, vehicula in ante ut, elementum tincidunt dui. Mauris vulputate malesuada
+                        mauris, hendrerit pellentesque tellus ultricies quis. Vivamus porttitor ullamcorper interdum.
+                        Sed blandit ipsum vel enim sollicitudin, quis facilisis magna aliquet.
+                    </p>
+                </div>
+                <div class="col-4">
+                    <img src="images/meeting.png" alt="Workers at a meeting" class="w-100">
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<!-- Failed Login Alert -->
+<% if (locals.attempt && attempt === 'fail') { %>
+    <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25" role="alert">
+        <strong>Login failed!</strong> Please try again.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="signupForm" action="/users" method="post">
+                    <div class="mb-3">
+                        <label for="signupFirstName" class="form-label">First Name</label>
+                        <input type="text" id="signupFirstName" class="form-control" name="firstName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupLastName" class="form-label">Last Name</label>
+                        <input type="text" id="signupLastName" class="form-control" name="lastName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email address</label>
+                        <input type="email" id="signupEmail" class="form-control" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <input type="password" id="signupPassword" class="form-control" name="password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" form="signupForm">Sign Up</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Log In Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" action="/login" method="post">
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email</label>
+                        <input type="text" id="loginEmail" class="form-control" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" name="password" required>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" form="loginForm">Log In</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('layouts/footer.ejs'); %>
+
+<!-- Bundled JS: Bootstrap, jQuery, Lodash -->
+<script src="scripts/bundle.js"></script>
+
+<!-- Custom JavaScript -->
+<script src="scripts/placeholder.js"></script>
+</body>
+</html>

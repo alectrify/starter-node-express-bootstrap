@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('layouts/head.ejs'); %>
+
+    <title>ThinkCorp - Home</title>
+</head>
+
+<body>
+<%- include('layouts/navbar', {view: 'user'}); %>
+
+<main>
+    <!-- Hero Section -->
+    <section id="hero" class="text-center bg-light">
+        <div class="container py-4 py-md-5">
+            <h1 class="text-primary font-slab">
+                <i class="bi bi-cart3"></i>
+                Greetings, <%= name %>
+            </h1>
+            <p class="lead my-3">
+                Welcome to your dashboard.
+            </p>
+        </div>
+    </section>
+
+    <!-- Actions Section -->
+    <section id="actions" class="bg-primary text-dark">
+        <div class="container py-4 py-md-5">
+            <h1>Actions</h1>
+
+            <div class="row">
+                <div class="col-9">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur fringilla sapien sed posuere.
+                        Aenean arcu tellus, pellentesque id tristique eget, pretium vel metus. Mauris eu mi mauris. Fusce ac
+                        laoreet dui. Fusce vitae velit nunc.
+                    </p>
+                    <ul>
+                        <li>
+                            <a href="#" class="link-dark">Lorem ipsum dolor</a>
+                        </li>
+                        <li>
+                            <a href="#" class="link-dark">Lorem ipsum dolor</a>
+                        </li>
+                        <li>
+                            <a href="#" class="link-dark">Lorem ipsum dolor</a>
+                        </li>
+                        <li>
+                            <a href="#" class="link-dark">Lorem ipsum dolor</a>
+                        </li>
+                        <li>
+                            <a href="#" class="link-dark">Lorem ipsum dolor</a>
+                        </li>
+                        <li>
+                            <a href="#" class="link-dark">Lorem ipsum dolor</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-3">
+                    <img src="images/idea.png" alt="" class="w-100">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="actions" class="bg-info text-light">
+        <div class="container py-4 py-md-5">
+            <h1>Statistics</h1>
+
+            <div class="row">
+                <div class="col-9">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur fringilla sapien sed posuere.
+                        Aenean arcu tellus, pellentesque id tristique eget, pretium vel metus. Mauris eu mi mauris. Fusce ac
+                        laoreet dui. Fusce vitae velit nunc.
+                    </p>
+                </div>
+                <div class="col-3">
+                    <img src="images/meeting.png" alt="" class="w-100">
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<%- include('layouts/footer.ejs'); %>
+
+<!-- Bundled JS: Bootstrap, jQuery, Lodash -->
+<script src="scripts/bundle.js"></script>
+
+<!-- Custom JavaScript -->
+<script src="scripts/placeholder.js"></script>
+</body>
+</html>

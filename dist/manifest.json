@@ -1,0 +1,15 @@
+{
+  "name": "Node.js/Express Website Template",
+  "short_name": "Node Website Template",
+  "icons": [
+    {
+      "src": "dist/images/favicon.ico",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/?utm_source=a2hs",
+  "theme_color": "#ffcc33",
+  "background_color": "#ffcc33",
+  "display": "standalone"
+}
