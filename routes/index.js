@@ -2,43 +2,45 @@
 const chalk = require('chalk');
 const createDOMPurify = require('dompurify');
 const express = require('express');
-const { JSDOM } = require('jsdom');
-const mongoose = require('mongoose');
+const {JSDOM} = require('jsdom');
 
-/* ---------- CUSTOM MODULES ---------- */
+/* ---------- INSTANCES ---------- */
+const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
+const router = express.Router();
+const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
-const DEV_MODE = false;
-const DB_NAME = 'thinkcorpDB';
-const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
-const MONGO_URI = process.env.MONGO_URI || `mongodb://localhost:27017/${DB_NAME}`;
-const router = express.Router();
+const DEV_MODE = false; // To automatically log in after server refresh
+const DEV_USER = {
+    _id: process.env.DEV_USER_ID,
+    name: 'Admin'
+};
+const LOGGING = false;
 
 /* ---------- FUNCTIONS  ---------- */
 function logCall(route) {
-    console.log(chalk.yellow.bold(`Webpage Call: ${route} at ${new Date().toUTCString()}`));
+    if (LOGGING) {
+        console.log(chalk.yellow.bold(`Webpage Call: ${route} at ${new Date().toUTCString()}`));
+    }
 }
 
 /* ---------- INITIALIZATION ---------- */
-/* ----- Mongoose ----- */
-mongoose.connect(MONGO_URI, {
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).catch((err) => console.log(err));
-const User = require('../models/User');
+/* ----- Express ----- */
+router.use(function (req, res, next) {
+    if (DEV_MODE) {
+        req.session.loggedIn = true;
+        req.session.name = DEV_USER.name;
+    }
 
-/* ---------- REQUEST METHODS ---------- */
+    next()
+});
+
+/* ---------- ROUTES ---------- */
 router.get('/', (req, res) => {
     logCall(req.route.path);
 
-    if (req.session.loggedIn || DEV_MODE) {
-        if (DEV_MODE) {
-            req.session.name = 'Admin';
-        }
-
-        res.render('dashboard', {name: req.session.name});
+    if (req.session.loggedIn) {
+        res.render('users/dashboard', {name: req.session.name});
     } else {
         res.render('landing', {attempt: req.query.attempt});
     }
@@ -71,12 +73,8 @@ router.get('/logout', (req, res) => {
 router.get('/settings', (req, res) => {
     logCall(req.route.path);
 
-    if (req.session.loggedIn || DEV_MODE) {
-        if (DEV_MODE) {
-            req.session.name = 'Admin';
-        }
-
-        res.render('settings');
+    if (req.session.loggedIn) {
+        res.render('users/settings');
     } else {
         res.render('landing');
     }

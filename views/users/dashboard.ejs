@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('layouts/head.ejs'); %>
+    <%- include('../layouts/head.ejs'); %>
 
     <title>ThinkCorp - Home</title>
 </head>
 
 <body>
-<%- include('layouts/navbar', {view: 'user'}); %>
+<%- include('../layouts/navbar', {view: 'user'}); %>
 
 <main>
     <!-- Hero Section -->
@@ -29,7 +29,7 @@
             <h1>Actions</h1>
 
             <div class="row">
-                <div class="col-9">
+                <div class="col-md-9">
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur fringilla sapien sed posuere.
                         Aenean arcu tellus, pellentesque id tristique eget, pretium vel metus. Mauris eu mi mauris. Fusce ac
@@ -56,7 +56,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-3">
+                <div class="col-md-3">
                     <img src="images/idea.png" alt="" class="w-100">
                 </div>
             </div>
@@ -70,14 +70,14 @@
             <h1>Statistics</h1>
 
             <div class="row">
-                <div class="col-9">
+                <div class="col-md-9">
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur fringilla sapien sed posuere.
                         Aenean arcu tellus, pellentesque id tristique eget, pretium vel metus. Mauris eu mi mauris. Fusce ac
                         laoreet dui. Fusce vitae velit nunc.
                     </p>
                 </div>
-                <div class="col-3">
+                <div class="col-md-3">
                     <img src="images/meeting.png" alt="" class="w-100">
                 </div>
             </div>
@@ -86,7 +86,7 @@
     </section>
 </main>
 
-<%- include('layouts/footer.ejs'); %>
+<%- include('../layouts/footer.ejs'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
 <script src="scripts/bundle.js"></script>

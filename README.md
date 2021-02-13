@@ -1,16 +1,17 @@
-# starter-node-express-bootstrap
+# 📝 starter-node-express-bootstrap
 Use this template to initialize your Express, MongoDB, and Node.js web application or website with a basic structure and starter code stylized with Bootstrap.
 
 *Work In Progress*
 
-## Installation Details
-Download Node.js: https://nodejs.org/en/download/  
-Download the nodemon package globally: https://www.npmjs.com/package/nodemon  
-Download MongoDB Community Server: https://www.mongodb.com/try/download/community
+## 🚀 Getting Started
+### Installation
+* Download [Node.js](https://nodejs.org/en/download/).   
+* Download the [nodemon](https://www.npmjs.com/package/nodemon) package globally.  
+* Download [MongoDB Community Server](https://www.mongodb.com/try/download/community).
 
 ### Initialization & Setup
 1. Create a `.env` file to hold environment variables. ([dotenv module](https://www.npmjs.com/package/dotenv))
-2. Edit the name of your database by editing the `DB_NAME` constant in `routes/api.js`.
+2. Edit the name of your database by editing the `DB_NAME` constant in `index.js`.
 3. Edit metadata information for SEO and data accuracy in:
    * `package.json`
    * `README.md` 
@@ -20,8 +21,9 @@ Download MongoDB Community Server: https://www.mongodb.com/try/download/communit
    * `views/landing.ejs`
 4. Run `npm install` to install packages.
 
-## Usage/Workflow Details
-1. Ensure that your MongoDB server is running locally for database functionality. (MongoDB Compass)  
+## 🎓 Usage/Workflow Details
+### Development Process
+1. Ensure that your MongoDB server is running locally for database functionality. 
 2. Run `nodemon` in your terminal while testing to automatically refresh your back-end after editing.  
 3. Develop front-end by creating HTML pages w/ EJS in the `views` directory and editing styles in `dist/styles/styles.css`.
 4. Work on back-end by editing `models`, `routes`, and `index.js`.
@@ -42,7 +44,14 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
    scripts mentioned above in the Installation Details.
 5. The `views` directory contains the EJS pages to be rendered by Express.
 
-## Current Release Details
+### Deployment
+1. Create a MongoDB Atlas database and collection and copy your connection URI. 
+2. Create a Heroku app and enable automatic deployment to your repository.
+3. Set environment variables for your Heroku app
+   1. MONGO_URI - Your MongoDB Atlas connection URI.
+   2. SESSION_SECRET - Express session secret
+
+## ⚓ Current Release Details
 **Bootstrap CSS** v5.0.0  
 **Express** v4.x  
 **Mongoose** v5.11.15  
@@ -68,22 +77,34 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 * nodemon - development quality of life
 * postcss & postcss-cli - CSS postprocessing (ex: autoprefixer)
 * sass - customizing and compiling Bootstrap
-* validator - validating
+* validator - formatting validation
 * webpack & webpack-cli - JS postprocessing
 
-## Future Release Plans
+## 📅 Future Release Plans
 * Different ports for other styling frameworks like Tailwind
 * E-mail encryption and forgot password functionality
 * More detailed starter code
 * Additional example pages
 
-## Additional Resources
-Google JavaScript Style Guide: https://google.github.io/styleguide/jsguide.html  
-Bootstrap Docs: https://getbootstrap.com/  
-Bootstrap Icons: https://icons.getbootstrap.com/#usage
-Express 4.x API Docs: https://expressjs.com/en/4x/api.html
-Lodash Docs: https://lodash.com/docs/4.17.15
-Mongoose (MongoDB) Docs: https://mongoosejs.com/docs/api.html  
-Can I Use... - Browser support tables for HTML5, CSS3, etc: https://caniuse.com  
-Placeholder.com - Free Image Placeholder Service: https://placeholder.com  
-SRI Hash Generator: https://www.srihash.org
+## 🗒️ Additional Resources
+### Best Practices
+* [Google HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html)
+* [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)
+  
+### Documentation
+* [Bootstrap Docs](https://getbootstrap.com/)
+* [Express 4.x API Docs](https://expressjs.com/en/4x/api.html)
+* [Lodash Docs](https://lodash.com/docs/4.17.15)  
+* [Mongoose Docs](https://mongoosejs.com/docs/api.html)  
+  
+### Tools and References
+* [Can I Use...](https://caniuse.com) - Browser support tables for HTML5, CSS3, etc
+* [Coolors Color Picker](https://coolors.co/a8ab66)
+* [Font Awesome Icons Gallery](https://fontawesome.com/icons?d=gallery&m=free)
+* [Google Fonts](https://fonts.google.com/)
+* [Hero Patterns](https://www.heropatterns.com/) - Customizable SVG background patterns
+* [Lorem Ipsum Generator](https://www.lipsum.com/)
+* [Placeholder.com](https://placeholder.com) - Free image placeholder service
+* [Regex Expression Tester](https://regex101.com/)
+* [Scale](https://2.flexiple.com/scale/all-illustrations) - Free and customizable vector illustrations
+* [SRI Hash Generator](https://www.srihash.org)   

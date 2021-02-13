@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('layouts/head.ejs'); %>
+    <%- include('../layouts/head.ejs'); %>
 
     <title>ThinkCorp - Home</title>
 </head>
 
 <body>
-<%- include('layouts/navbar', {active: 'settings', view: 'user'}); %>
+<%- include('../layouts/navbar', {active: 'settings', view: 'user'}); %>
 
 <main>
     <section class="bg-light">
@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<%- include('layouts/footer.ejs'); %>
+<%- include('../layouts/footer.ejs'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
 <script src="scripts/bundle.js"></script>

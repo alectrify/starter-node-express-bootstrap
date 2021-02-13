@@ -4,32 +4,28 @@ const chalk = require('chalk');
 const createDOMPurify = require('dompurify');
 const express = require('express');
 const {JSDOM} = require('jsdom');
-const mongoose = require('mongoose');
+
+/* ---------- INSTANCES ---------- */
+const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
+const router = express.Router();
+const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
-const DB_NAME = 'thinkcorpDB';
-const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
-const MONGO_URI = process.env.MONGO_URI || `mongodb://localhost:27017/${DB_NAME}`;
-const router = express.Router();
+const LOGGING = true;
 
 /* ---------- FUNCTIONS ---------- */
 function logCall(route) {
-    console.log(chalk.yellow(`- API Call: ${route} at ${new Date().toUTCString()}`));
+    if (LOGGING) {
+        console.log(chalk.yellow(`- API Call: ${route} at ${new Date().toUTCString()}`));
+    }
 }
 
 /* ---------- INITIALIZATION ---------- */
-/* ----- Mongoose ----- */
-mongoose.connect(MONGO_URI, {
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).catch((err) => console.log(err));
-const User = require('../models/User');
 
 /* ---------- ROUTES ---------- */
+// Get all users.
 router.get('/', (req, res) => {
-    logCall('GET /users');
+    logCall(`${req.method} ${req.route.path}`);
 
     User.find({}, (err, users) => {
         if (err) throw err;
@@ -38,12 +34,13 @@ router.get('/', (req, res) => {
     });
 });
 
+// Create a user.
 router.post('/', (req, res) => {
-    logCall('POST /users');
+    logCall(`${req.method} ${req.route.path}`);
 
     const fields = [req.body.firstName, req.body.lastName, req.body.email, req.body.password];
 
-    const [firstName, lastName, email, password] = _.map(fields, DOMPurify.sanitize)
+    const [firstName, lastName, email, password] = _.map(fields, DOMPurify.sanitize);
 
     const user = new User({
         firstName,
@@ -58,12 +55,14 @@ router.post('/', (req, res) => {
         req.session.loggedIn = true;
         req.session._id = user._id;
         req.session.name = `${user.firstName} ${user.lastName}`;
+
         res.redirect('/');
     });
 });
 
+// Delete currently logged in user.
 router.delete('/', (req, res) => {
-    logCall('DELETE /users');
+    logCall(`${req.method} ${req.route.path}`);
 
     if (req.session._id) {
         User.findByIdAndDelete(req.session._id, (err) => {
@@ -76,8 +75,9 @@ router.delete('/', (req, res) => {
     }
 });
 
+// Get a specific user.
 router.get('/:id', (req, res) => {
-    logCall('GET /users/:id');
+    logCall(`${req.method} ${req.route.path}`);
 
     User.findById(req.params.id, (err, user) => {
         if (err) throw err;
@@ -86,18 +86,14 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
-    logCall('PUT /users/:id');
-});
-
-
+// Delete a specific user.
 router.delete('/:id', (req, res) => {
-    logCall('DELETE /users/:id');
+    logCall(`${req.method} ${req.route.path}`);
 
     User.findByIdAndDelete(req.params.id, (err) => {
         if (err) throw err;
 
-        res.redirect('/logout');
+        res.redirect('/');
     });
 });
 

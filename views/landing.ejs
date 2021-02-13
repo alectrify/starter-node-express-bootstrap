@@ -5,10 +5,10 @@
 
     <!-- Home Specific Tags -->
     <meta name="description" content="A Node.js/Express website template stylized with Bootstrap.">
-    <link rel="canonical" href="https://github.com/alectrify/starter-node-express-bootstrap"/>
+    <link rel="canonical" href="https://node-website-template.herokuapp.com/"/>
 
     <!-- Facebook: https://developers.facebook.com/docs/sharing/webmasters/ -->
-    <meta property="og:url" content="https://github.com/alectrify/starter-node-express-bootstrap">
+    <meta property="og:url" content="https://node-website-template.herokuapp.com/">
     <meta property="og:title" content="Node.js/Express Website Template">
     <meta property="og:description" content="A Node.js/Express website template stylized with Bootstrap.">
     <meta property="og:type" content="website">
@@ -32,7 +32,7 @@
     <!-- Hero Section -->
     <section id="hero">
         <div class="container text-center py-4 py-md-5">
-            <h1 class="display-5 font-italic"><i class="fa fa-splotch"></i> ThinkCorp</h1>
+            <h1 class="display-5"><i class="fa fa-splotch"></i> ThinkCorp</h1>
             <p class="lead my-3">
                 Creating inventive solutions for complex problems
             </p>
@@ -50,9 +50,9 @@
             <h1>Principles</h1>
 
             <div class="row">
-                <div class="col-9">
+                <div class="col-md-9">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <h2>Modern</h2>
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse massa velit,
@@ -61,7 +61,7 @@
                             </p>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-md=4">
                             <h2>Diverse</h2>
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse massa velit,
@@ -70,7 +70,7 @@
                             </p>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <h2>Forward-thinking</h2>
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse massa velit,
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-md-3">
                     <img src="images/idea.png" alt="Man with an idea" class="w-100">
                 </div>
             </div>
@@ -93,7 +93,7 @@
             <h1>About</h1>
 
             <div class="row">
-                <div class="col-8">
+                <div class="col-md-8">
                     <h2>Our Company</h2>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur fringilla sapien sed
@@ -121,7 +121,7 @@
                         Sed blandit ipsum vel enim sollicitudin, quis facilisis magna aliquet.
                     </p>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4">
                     <img src="images/meeting.png" alt="Workers at a meeting" class="w-100">
                 </div>
             </div>
@@ -129,6 +129,8 @@
         </div>
     </section>
 </main>
+
+<%- include('layouts/footer.ejs'); %>
 
 <!-- Failed Login Alert -->
 <% if (locals.attempt && attempt === 'fail') { %>
@@ -148,34 +150,32 @@
             </div>
             <div class="modal-body">
                 <form id="signupForm" action="/users" method="post">
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" id="signupFirstName" class="form-control" name="firstName" placeholder="First Name" required>
                         <label for="signupFirstName" class="form-label">First Name</label>
-                        <input type="text" id="signupFirstName" class="form-control" name="firstName" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" id="signupLastName" class="form-control" name="lastName" placeholder="Last Name" required>
                         <label for="signupLastName" class="form-label">Last Name</label>
-                        <input type="text" id="signupLastName" class="form-control" name="lastName" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="signupEmail" class="form-label">Email address</label>
-                        <input type="email" id="signupEmail" class="form-control" name="email" required>
+                    <div class="form-floating mb-3">
+                        <input type="email" id="signupEmail" class="form-control" name="email" placeholder="Email" required>
+                        <label for="signupEmail" class="form-label">Email</label>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
+                        <input type="password" id="signupPassword" class="form-control" name="password" placeholder="Password" required>
                         <label for="signupPassword" class="form-label">Password</label>
-                        <input type="password" id="signupPassword" class="form-control" name="password" required>
                     </div>
+
+                    <button type="submit" class="btn btn-lg btn-primary w-100" form="signupForm">Sign Up</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success" form="signupForm">Sign Up</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Log In Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -184,26 +184,22 @@
             </div>
             <div class="modal-body">
                 <form id="loginForm" action="/login" method="post">
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" id="loginEmail" class="form-control" name="email" placeholder="Email" required>
                         <label for="loginEmail" class="form-label">Email</label>
-                        <input type="text" id="loginEmail" class="form-control" name="email" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
+                        <input type="password" id="loginPassword" class="form-control" name="password" placeholder="Password" required>
                         <label for="loginPassword" class="form-label">Password</label>
-                        <input type="password" id="loginPassword" class="form-control" name="password" required>
+                        <a class="link-danger text-decoration-none" href="#">Forgot password?</a>
                     </div>
-                </form>
-            </div>
 
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success" form="loginForm">Log In</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-lg btn-info w-100" form="loginForm">Log In</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-<%- include('layouts/footer.ejs'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
 <script src="scripts/bundle.js"></script>
