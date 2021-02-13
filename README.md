@@ -1,4 +1,4 @@
-# 📝 starter-node-express-bootstrap
+# 💡 starter-node-express-bootstrap
 Use this template to initialize your Express, MongoDB, and Node.js web application or website with a basic structure and starter code stylized with Bootstrap.
 
 *Work In Progress*
@@ -21,7 +21,7 @@ Use this template to initialize your Express, MongoDB, and Node.js web applicati
    * `views/landing.ejs`
 4. Run `npm install` to install packages.
 
-## 🎓 Usage/Workflow Details
+## ⚙️Usage/Workflow Details
 ### Development Process
 1. Ensure that your MongoDB server is running locally for database functionality. 
 2. Run `nodemon` in your terminal while testing to automatically refresh your back-end after editing.  
@@ -47,19 +47,20 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 ### Deployment
 1. Create a MongoDB Atlas database and collection and copy your connection URI. 
 2. Create a Heroku app and enable automatic deployment to your repository.
-3. Set environment variables for your Heroku app
-   1. MONGO_URI - Your MongoDB Atlas connection URI.
+3. Set environment variables for your Heroku app.
+   1. MONGO_URI - MongoDB Atlas connection URI
    2. SESSION_SECRET - Express session secret
 
-## ⚓ Current Release Details
-**Bootstrap CSS** v5.0.0  
-**Express** v4.x  
-**Mongoose** v5.11.15  
+## ✔️Current Release Details
+### Main Package Versions
+* **Bootstrap CSS** v5.0.0  
+* **Express** v4.x  
+* **Mongoose** v5.11.15  
 
 ### Packages Included
 * @fortawesome/fontawesome-free - Font Awesome Icons
 * autoprefixer - adding vendor prefixes to css
-* bcrypt - password-hashing
+* bcryptjs - password-hashing
 * bootstrap & @popperjs/core - styling
 * body-parser - essential for express
 * chalk - colorful terminal output
