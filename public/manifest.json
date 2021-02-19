@@ -3,7 +3,7 @@
   "short_name": "Node Website Template",
   "icons": [
     {
-      "src": "dist/images/favicon.ico",
+      "src": "dist/assets/favicon.ico",
       "sizes": "16x16",
       "type": "image/png"
     }

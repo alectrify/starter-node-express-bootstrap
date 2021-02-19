@@ -12,17 +12,45 @@
 <main>
     <section class="bg-light">
         <div class="container py-4 py-md-5">
-            <h1 class="font-slab">
+            <h1 class="font-slab mb-4">
+                <i class="fa fa-cogs"></i>
                 Settings
             </h1>
 
-            <h2 class="text-danger">Delete account</h2>
-            <hr>
-            <p>
-                Deleting your account will delete all of your data.
-            </p>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">Delete account</button>
+            <div class="mb-4">
+                <h2>Change password</h2>
+                <hr>
+                <form class="needs-validation" action="/users?_method=PUT" method="post" novalidate>
+                    <div class="mb-3 has-validation">
+                        <label for="oldPassword" class="form-label">Old password</label>
+                        <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword1" class="form-label">New password</label>
+                        <input type="password" class="form-control" id="newPassword1" required>
+                    </div>
+                    <div class="mb-3 has-validation">
+                        <label for="newPassword2" class="form-label">Confirm new password</label>
+                        <input type="password" class="form-control" id="newPassword2" name="newPassword" required>
+                        <div class="invalid-feedback">
+                            Passwords do not match.
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" type="submit">Update password</button>
+                </form>
+            </div>
+
+            <div>
+                <h2 class="text-danger">Delete account</h2>
+                <hr>
+                <p>
+                    Deleting your account will delete all of your data.
+                </p>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal"><i class="fa fa-trash"></i> Delete account
+                </button>
+            </div>
         </div>
     </section>
 </main>
@@ -54,5 +82,36 @@
 
 <!-- Custom JavaScript -->
 <script src="scripts/placeholder.js"></script>
+<script>
+    const newPassword1 = $('#newPassword1');
+    const newPassword2 = $('#newPassword2');
+
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    if (newPassword1.val() !== newPassword2.val()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            });
+    })();
+</script>
 </body>
 </html>

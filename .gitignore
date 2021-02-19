@@ -13,6 +13,7 @@ node_modules/
 
 # misc
 /.idea
+/.vscode
 .DS_Store
 .env
 .env.local

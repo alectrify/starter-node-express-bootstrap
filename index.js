@@ -24,11 +24,11 @@ const PORT = process.env.PORT || 3000;
 
 /* ---------- FUNCTIONS ---------- */
 function updateFontAwesome() {
-    fs.copy('./node_modules/@fortawesome/fontawesome-free/css/all.min.css', 'dist/styles/fontawesome.css', (err) => {
+    fs.copy('./node_modules/@fortawesome/fontawesome-free/css/all.min.css', 'public/styles/fontawesome.css', (err) => {
         if (err) throw err;
     });
 
-    fs.copy('./node_modules/@fortawesome/fontawesome-free/webfonts', 'dist/webfonts', (err) => {
+    fs.copy('./node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts', (err) => {
         if (err) throw err;
     });
 }
@@ -43,7 +43,7 @@ if (DOTENV_RESULT.error) {
 
 /* ----- Express ----- */
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/dist')); // URL path begins at /dist.
+app.use(express.static(__dirname + '/public')); // URL path begins at /public.
 
 if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1);
@@ -54,7 +54,7 @@ app.use(bodyParser.urlencoded({extended: false})); // Parse application/x-www-fo
 app.use(bodyParser.json()); // Parse application/json.
 app.use(cors());
 app.use(compression()); // Compress all responses.
-app.use(favicon(path.join(__dirname, 'dist', 'images', 'favicon.ico'))); // Go to http://localhost:3000/images/favicon.ico to refresh icon.
+app.use(favicon(path.join(__dirname, 'public', 'assets', 'favicon.ico'))); // Go to http://localhost:3000/assets/favicon.ico to refresh icon.
 app.use(
     helmet({
         contentSecurityPolicy: false,
@@ -63,7 +63,7 @@ app.use(
 app.use(methodOverride('_method')); // Process POST request suffixed with ?_method=DELETE or ?_method=PUT.
 app.use(session({
     name: 'qid',
-    secret: process.env.SESSION_SECRET || 'dQw4w9WgXcQ',
+    secret: process.env.SESSION_SECRET || 'dQw4w9WgXcQ', // run `node -e "console.log(crypto.randomBytes(32).toString('hex'))"` in console to generate secret
     resave: false,
     saveUninitialized: false,
     cookie: {

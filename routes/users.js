@@ -60,6 +60,37 @@ router.post('/', (req, res) => {
     });
 });
 
+// Edit currently logged in user.
+router.put('/', (req, res) => {
+    logCall(`${req.method} ${req.route.path}`);
+
+    if (req.session._id) {
+        User.findById(req.session._id, (err, user) => {
+            if (err) console.error(err);
+
+            // If password change attempt:
+            if (req.body.oldPassword) {
+                user.verifyPassword(req.body.oldPassword, (err, result) => {
+                    if (result) {
+                        user.password = req.body.newPassword;
+                        user.save();
+
+                        res.redirect('/settings');
+                    } else {
+                        res.redirect('/settings');
+                    }
+                });
+            }
+            else {
+                res.redirect('/logout');
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+});
+
+
 // Delete currently logged in user.
 router.delete('/', (req, res) => {
     logCall(`${req.method} ${req.route.path}`);

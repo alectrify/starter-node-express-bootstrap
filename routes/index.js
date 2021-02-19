@@ -10,7 +10,7 @@ const router = express.Router();
 const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
-const DEV_MODE = false; // To automatically log in after server refresh
+const DEV_MODE = process.env.LOGGED_IN === 'true'; // To automatically log in after server refresh
 const DEV_USER = {
     _id: process.env.DEV_USER_ID,
     name: 'Admin'

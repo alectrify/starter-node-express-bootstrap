@@ -47,6 +47,11 @@ userSchema.pre('save', async function (next) {
 });
 
 /* ---------- FUNCTIONS ---------- */
+/* ----- Instance Methods ----- */
+userSchema.methods.verifyPassword = function(inputPassword, callback) {
+    return bcrypt.compare(inputPassword, this.password, callback);
+}
+
 /* ----- Static ----- */
 userSchema.statics.findByCredentials = function (email, password) {
     return this.findOne({email}, (err, user) => {
@@ -54,7 +59,7 @@ userSchema.statics.findByCredentials = function (email, password) {
 
         if (!user) {
             return null;
-            // throw new Error('Invalid username');
+            // throw new Error('Invalid email');
         }
 
         bcrypt.compare(password, user.password, (err, result) => {

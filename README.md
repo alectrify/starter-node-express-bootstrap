@@ -15,32 +15,32 @@ Use this template to initialize your Express, MongoDB, and Node.js web applicati
 3. Edit metadata information for SEO and data accuracy in:
    * `package.json`
    * `README.md` 
-   * `dist/manifest.json`
-   * `dist/robots.txt`
-   * `dist/sitemap.xml`
+   * `public/manifest.json`
+   * `public/robots.txt`
+   * `public/sitemap.xml`
    * `views/landing.ejs`
 4. Run `npm install` to install packages.
 
-## ⚙️Usage/Workflow Details
+## ⚙️ Usage/Workflow Details
 ### Development Process
 1. Ensure that your MongoDB server is running locally for database functionality. 
 2. Run `nodemon` in your terminal while testing to automatically refresh your back-end after editing.  
-3. Develop front-end by creating HTML pages w/ EJS in the `views` directory and editing styles in `dist/styles/styles.css`.
+3. Develop front-end by creating HTML pages w/ EJS in the `views` directory and editing styles in `public/styles/styles.css`.
 4. Work on back-end by editing `models`, `routes`, and `index.js`.
-5. (optional) Customize Bootstrap CSS in `src/custom.css` and compile it with `npm run sass` to export your bundled CSS to `dist/styles/bootstrap.css`.
+5. (optional) Customize Bootstrap CSS in `src/custom.css` and compile it with `npm run sass` to export your bundled CSS to `public/styles/bootstrap.css`.
 
 ### Scripts
 Run `npm install` in the root directory to install packages.  
 Run `npm run sass` to compile Bootstrap CSS from the `src` folder.  
 Run `npm run build` to compile CSS and Javascript from the `src` folder.  
-Run `npm run build:css` to compile Bootstrap CSS and postprocess vendor prefixes in `dist/styles/styles.css`.  
+Run `npm run build:css` to compile Bootstrap CSS and postprocess vendor prefixes in `public/styles/styles.css`.  
 Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `src` folder.
 
 ### Directory Details
-1. The `dist` directory contains front-end and site metadata.
+1. The `public` directory contains front-end and site metadata.
 2. The `models` directory contains MongoDB models.
 3. The `routes` directory contains routes for endpoints and API calls.
-4. The `src` directory contains pre-compiled Bootstrap CSS and JS that is to be bundled into front-end (`dist`) using the
+4. The `src` directory contains pre-compiled Bootstrap CSS and JS that is to be bundled into front-end (`public`) using the
    scripts mentioned above in the Installation Details.
 5. The `views` directory contains the EJS pages to be rendered by Express.
 
@@ -51,7 +51,7 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
    1. MONGO_URI - MongoDB Atlas connection URI
    2. SESSION_SECRET - Express session secret
 
-## ✔️Current Release Details
+## ✔️ Current Release Details
 ### Main Package Versions
 * **Bootstrap CSS** v5.0.0  
 * **Express** v4.x  
@@ -86,6 +86,7 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 * E-mail encryption and forgot password functionality
 * More detailed starter code
 * Additional example pages
+* Passport.js authentication
 
 ## 🗒️ Additional Resources
 ### Best Practices

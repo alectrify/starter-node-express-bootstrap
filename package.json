@@ -8,8 +8,8 @@
     "url": "git+https://github.com/alectrify/starter-node-express-bootstrap.git"
   },
   "scripts": {
-    "sass": "sass src/custom.scss dist/styles/bootstrap.css",
-    "build:css": "sass src/custom.scss dist/styles/bootstrap.css && postcss dist/styles/styles.css --use autoprefixer -o dist/styles/styles.css",
+    "sass": "sass src/custom.scss public/styles/bootstrap.css",
+    "build:css": "sass src/custom.scss public/styles/bootstrap.css && postcss public/styles/styles.css --use autoprefixer -o public/styles/styles.css",
     "build:js": "webpack --mode=production",
     "build": "npm run build:css && npm run build:js",
     "start": "node index.js"
