@@ -11,6 +11,8 @@ Use this template to initialize your Express, MongoDB, and Node.js web applicati
 
 ### Initialization & Setup
 1. Create a `.env` file to hold environment variables. ([dotenv module](https://www.npmjs.com/package/dotenv))
+   1. LOGGED_IN=true - log in upon server refresh for user development
+   2. DEV_USER_ID - MongoDB _id of a record to automatically log in with 
 2. Edit the name of your database by editing the `DB_NAME` constant in `index.js`.
 3. Edit metadata information for SEO and data accuracy in:
    * `package.json`
