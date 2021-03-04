@@ -8,8 +8,8 @@
     "url": "git+https://github.com/alectrify/starter-node-express-bootstrap.git"
   },
   "scripts": {
-    "sass": "sass src/custom.scss public/styles/bootstrap.css",
-    "build:css": "sass src/custom.scss public/styles/bootstrap.css && postcss public/styles/styles.css --use autoprefixer -o public/styles/styles.css",
+    "sass": "sass src/bootstrap.scss public/styles/bootstrap.css",
+    "build:css": "sass src/bootstrap.scss public/styles/bootstrap.css && postcss public/styles/styles.css --use autoprefixer -o public/styles/styles.css",
     "build:js": "webpack --mode=production",
     "build": "npm run build:css && npm run build:js",
     "start": "node index.js"
@@ -35,6 +35,9 @@
     "lodash": "^4.17.20",
     "method-override": "^3.0.0",
     "mongoose": "^5.11.14",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "postcss": "^8.2.4",
     "serve-favicon": "^2.5.0",
     "validator": "^13.5.2"

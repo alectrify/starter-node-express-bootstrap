@@ -29,7 +29,7 @@ Use this template to initialize your Express, MongoDB, and Node.js web applicati
 2. Run `nodemon` in your terminal while testing to automatically refresh your back-end after editing.  
 3. Develop front-end by creating HTML pages w/ EJS in the `views` directory and editing styles in `public/styles/styles.css`.
 4. Work on back-end by editing `models`, `routes`, and `index.js`.
-5. (optional) Customize Bootstrap CSS in `src/custom.css` and compile it with `npm run sass` to export your bundled CSS to `public/styles/bootstrap.css`.
+5. (optional) Customize Bootstrap CSS in `src/bootstrap.css` and compile it with `npm run sass` to export your bundled CSS to `public/styles/bootstrap.css`.
 
 ### Scripts
 Run `npm install` in the root directory to install packages.  
@@ -78,6 +78,7 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 * method-override - enabling methods for the client
 * mongoose - database functionality
 * nodemon - development quality of life
+* passport - authentication
 * postcss & postcss-cli - CSS postprocessing (ex: autoprefixer)
 * sass - customizing and compiling Bootstrap
 * validator - formatting validation

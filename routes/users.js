@@ -1,32 +1,22 @@
 /* ---------- MODULES ---------- */
 const _ = require('lodash');
-const chalk = require('chalk');
 const createDOMPurify = require('dompurify');
 const express = require('express');
 const {JSDOM} = require('jsdom');
 
-/* ---------- INSTANCES ---------- */
+/* ---------- CLASSES & INSTANCES ---------- */
 const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
 const router = express.Router();
 const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
-const LOGGING = true;
-
 /* ---------- FUNCTIONS ---------- */
-function logCall(route) {
-    if (LOGGING) {
-        console.log(chalk.yellow(`- API Call: ${route} at ${new Date().toUTCString()}`));
-    }
-}
 
 /* ---------- INITIALIZATION ---------- */
 
 /* ---------- ROUTES ---------- */
 // Get all users.
 router.get('/', (req, res) => {
-    logCall(`${req.method} ${req.route.path}`);
-
     User.find({}, (err, users) => {
         if (err) throw err;
 
@@ -36,8 +26,6 @@ router.get('/', (req, res) => {
 
 // Create a user.
 router.post('/', (req, res) => {
-    logCall(`${req.method} ${req.route.path}`);
-
     const fields = [req.body.firstName, req.body.lastName, req.body.email, req.body.password];
 
     const [firstName, lastName, email, password] = _.map(fields, DOMPurify.sanitize);
@@ -62,8 +50,6 @@ router.post('/', (req, res) => {
 
 // Edit currently logged in user.
 router.put('/', (req, res) => {
-    logCall(`${req.method} ${req.route.path}`);
-
     if (req.session._id) {
         User.findById(req.session._id, (err, user) => {
             if (err) console.error(err);
@@ -93,8 +79,6 @@ router.put('/', (req, res) => {
 
 // Delete currently logged in user.
 router.delete('/', (req, res) => {
-    logCall(`${req.method} ${req.route.path}`);
-
     if (req.session._id) {
         User.findByIdAndDelete(req.session._id, (err) => {
             if (err) console.error(err);
@@ -108,8 +92,6 @@ router.delete('/', (req, res) => {
 
 // Get a specific user.
 router.get('/:id', (req, res) => {
-    logCall(`${req.method} ${req.route.path}`);
-
     User.findById(req.params.id, (err, user) => {
         if (err) throw err;
 
@@ -119,8 +101,6 @@ router.get('/:id', (req, res) => {
 
 // Delete a specific user.
 router.delete('/:id', (req, res) => {
-    logCall(`${req.method} ${req.route.path}`);
-
     User.findByIdAndDelete(req.params.id, (err) => {
         if (err) throw err;
 

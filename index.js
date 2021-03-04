@@ -10,11 +10,15 @@ const fs = require('fs-extra');
 const helmet = require('helmet');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+// const passport = require('passport');
 const path = require('path');
 const session = require('express-session');
 
-/* ---------- INSTANCES ---------- */
+/* ---------- CLASSES & INSTANCES ---------- */
 const app = express();
+// const LocalStrategy = require('passport-local').Strategy;
+const User = require('./models/User');
 
 /* ---------- CONSTANTS ---------- */
 const DB_NAME = 'thinkcorpDB';
@@ -23,6 +27,8 @@ const MONGO_URI = process.env.MONGO_URI || `mongodb://localhost:27017/${DB_NAME}
 const PORT = process.env.PORT || 3000;
 
 /* ---------- FUNCTIONS ---------- */
+const passportInit = require('./auth/init');
+
 function updateFontAwesome() {
     fs.copy('./node_modules/@fortawesome/fontawesome-free/css/all.min.css', 'public/styles/fontawesome.css', (err) => {
         if (err) throw err;
@@ -61,9 +67,14 @@ app.use(
     })
 );
 app.use(methodOverride('_method')); // Process POST request suffixed with ?_method=DELETE or ?_method=PUT.
+app.use(morgan('dev'));
+/*
+app.use(passport.initialize());
+app.use(passport.session());
+*/
 app.use(session({
     name: 'qid',
-    secret: process.env.SESSION_SECRET || 'dQw4w9WgXcQ', // run `node -e "console.log(crypto.randomBytes(32).toString('hex'))"` in console to generate secret
+    secret: process.env.SESSION_SECRET || 'dQw4w9WgXcQ', // run `node -e "console.log(crypto.randomBytes(32).toString('hex'))"` in console to generate secret.
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -81,8 +92,32 @@ mongoose.connect(MONGO_URI, {
     useUnifiedTopology: true
 }).catch((err) => console.log(err));
 
+/* ----- Passport ----- */
+/*
+passport.use(new LocalStrategy({
+        usernameField: 'email'
+    },
+    function (email, password, done) {
+        User.findOne({email: email}, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+            if (!user) {
+                return done(null, false);
+            }
+            if (!user.verifyPassword(password)) {
+                return done(null, false);
+            }
+            return done(null, user);
+        });
+    }
+));
+passportInit();
+*/
+
 /* ---------- ROUTES ---------- */
 app.use('/', require('./routes/index.js'));
+// app.use('/auth', require('./routes/auth.js'));
 app.use('/users', require('./routes/users.js'));
 
 // Redirect invalid pages
@@ -104,5 +139,5 @@ app.use((req, res) => {
 /* ---------- LAUNCH ---------- */
 app.listen(PORT, () => {
     console.log(chalk.blue(`🚀 Server running at http://localhost:${PORT}/`));
-    console.log(chalk.green('📝 Setup and details for developing this project: https://github.com/AdoryVo/node-website-template\n'));
+    console.log(chalk.green('📝 Setup and details for developing this project: https://github.com/alectrify/starter-node-express-bootstrap\n'));
 });
