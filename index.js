@@ -116,9 +116,9 @@ passportInit();
 */
 
 /* ---------- ROUTES ---------- */
-app.use('/', require('./routes/index.js'));
-// app.use('/auth', require('./routes/auth.js'));
-app.use('/users', require('./routes/users.js'));
+app.use('/', require('./routes/index'));
+// app.use('/auth', require('./routes/auth'));
+app.use('/users', require('./routes/users'));
 
 // Redirect invalid pages
 app.use((req, res) => {

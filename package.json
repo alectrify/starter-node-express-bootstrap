@@ -2,7 +2,6 @@
   "name": "starter-node-express-bootstrap",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alectrify/starter-node-express-bootstrap.git"
@@ -14,6 +13,7 @@
     "build": "npm run build:css && npm run build:js",
     "start": "node index.js"
   },
+  "author": "Alectrify Software",
   "dependencies": {
     "@popperjs/core": "^2.6.0",
     "autoprefixer": "^10.2.4",
@@ -34,7 +34,7 @@
     "jsdom": "^16.4.0",
     "lodash": "^4.17.20",
     "method-override": "^3.0.0",
-    "mongoose": "^5.11.14",
+    "mongoose": "^5.12.2",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",

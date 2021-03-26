@@ -1,6 +1,6 @@
 {
-  "name": "Node.js/Express Website Template",
-  "short_name": "Node Website Template",
+  "name": "Node.js/Express Template",
+  "short_name": "Alectrify - Bootstrap Node.js/Express Template",
   "icons": [
     {
       "src": "public/assets/favicon.ico",

@@ -12,7 +12,7 @@ Use this template to initialize your Express, MongoDB, and Node.js web applicati
 ### Initialization & Setup
 1. Create a `.env` file to hold environment variables. ([dotenv module](https://www.npmjs.com/package/dotenv))
    1. LOGGED_IN=true - log in upon server refresh for user development
-   2. DEV_USER_ID - MongoDB _id of a record to automatically log in with 
+   2. DEV_USER_ID=\[MongoDB _id\] - MongoDB _id of a record to automatically log in with 
 2. Edit the name of your database by editing the `DB_NAME` constant in `index.js`.
 3. Edit metadata information for SEO and data accuracy in:
    * `package.json`
@@ -39,12 +39,13 @@ Run `npm run build:css` to compile Bootstrap CSS and postprocess vendor prefixes
 Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `src` folder.
 
 ### Directory Details
-1. The `public` directory contains front-end and site metadata.
-2. The `models` directory contains MongoDB models.
-3. The `routes` directory contains routes for endpoints and API calls.
-4. The `src` directory contains pre-compiled Bootstrap CSS and JS that is to be bundled into front-end (`public`) using the
+1. The auth directory contains Passport.js configurations. (Work In Progress)
+2. The `public` directory contains front-end and site metadata.
+3. The `models` directory contains MongoDB models.
+4. The `routes` directory contains routes for endpoints and API calls.
+5. The `src` directory contains pre-compiled Bootstrap CSS and JS that is to be bundled into front-end (`public`) using the
    scripts mentioned above in the Installation Details.
-5. The `views` directory contains the EJS pages to be rendered by Express.
+6. The `views` directory contains the EJS pages to be rendered by Express.
 
 ### Deployment
 1. Create a MongoDB Atlas database and collection and copy your connection URI. 
@@ -55,9 +56,9 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 
 ## ✔️ Current Release Details
 ### Main Package Versions
-* **Bootstrap CSS** v5.0.0  
+* **Bootstrap** v5.0.0  
 * **Express** v4.x  
-* **Mongoose** v5.11.15  
+* **Mongoose** v5.12.2
 
 ### Packages Included
 * @fortawesome/fontawesome-free - Font Awesome Icons
