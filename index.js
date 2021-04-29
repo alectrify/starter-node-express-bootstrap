@@ -11,13 +11,13 @@ const helmet = require('helmet');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-// const passport = require('passport');
+const passport = require('passport');
 const path = require('path');
 const session = require('express-session');
 
 /* ---------- CLASSES & INSTANCES ---------- */
 const app = express();
-// const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/User');
 
 /* ---------- CONSTANTS ---------- */
@@ -68,10 +68,6 @@ app.use(
 );
 app.use(methodOverride('_method')); // Process POST request suffixed with ?_method=DELETE or ?_method=PUT.
 app.use(morgan('dev'));
-/*
-app.use(passport.initialize());
-app.use(passport.session());
-*/
 app.use(session({
     name: 'qid',
     secret: process.env.SESSION_SECRET || 'dQw4w9WgXcQ', // run `node -e "console.log(crypto.randomBytes(32).toString('hex'))"` in console to generate secret.
@@ -93,7 +89,9 @@ mongoose.connect(MONGO_URI, {
 }).catch((err) => console.log(err));
 
 /* ----- Passport ----- */
-/*
+app.use(passport.initialize());
+app.use(passport.session());
+
 passport.use(new LocalStrategy({
         usernameField: 'email'
     },
@@ -113,7 +111,6 @@ passport.use(new LocalStrategy({
     }
 ));
 passportInit();
-*/
 
 /* ---------- ROUTES ---------- */
 app.use('/', require('./routes/index'));
@@ -124,7 +121,7 @@ app.use('/users', require('./routes/users'));
 app.use((req, res) => {
     res.format({
         html: () => {
-            console.error(chalk.red.bold(`Error 404: Requested page ${req.originalUrl}`));
+            res.status(404);
             res.render('404');
         },
         json: () => {

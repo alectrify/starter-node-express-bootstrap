@@ -20,7 +20,8 @@
             <div class="mb-4">
                 <h2>Change password</h2>
                 <hr>
-                <form class="needs-validation" action="/users?_method=PUT" method="post" novalidate>
+                <form id="changePasswordForm" class="needs-validation" action="/users?_method=PUT" method="post"
+                      novalidate>
                     <div class="mb-3 has-validation">
                         <label for="oldPassword" class="form-label">Old password</label>
                         <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
@@ -75,43 +76,28 @@
     </div>
 </div>
 
+<!-- Failed Password Change Alert -->
+<% if (locals.attempt && attempt === 'fail') { %>
+    <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25" role="alert">
+        <strong>Password change failed!</strong> Incorrect old password was entered.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<!-- Successful Password Change Alert -->
+<% if (locals.attempt && attempt === 'success') { %>
+    <div class="alert alert-success alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25" role="alert">
+        <strong>Password change succeeded!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
 <%- include('../layouts/footer.ejs'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
-<script src="scripts/bundle.js"></script>
+<script src="/scripts/bundle.js"></script>
 
 <!-- Custom JavaScript -->
-<script src="scripts/placeholder.js"></script>
-<script>
-    const newPassword1 = $('#newPassword1');
-    const newPassword2 = $('#newPassword2');
-
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    if (newPassword1.val() !== newPassword2.val()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    } else {
-
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            });
-    })();
-</script>
+<script src="/scripts/change-password-form-validation.js"></script>
 </body>
 </html>

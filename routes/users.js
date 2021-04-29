@@ -1,5 +1,6 @@
 /* ---------- MODULES ---------- */
 const _ = require('lodash');
+const auth = require('../middleware/auth');
 const createDOMPurify = require('dompurify');
 const express = require('express');
 const {JSDOM} = require('jsdom');
@@ -16,7 +17,7 @@ const User = require('../models/User');
 
 /* ---------- ROUTES ---------- */
 // Get all users.
-router.get('/', (req, res) => {
+router.get('/', auth.isAdmin, (req, res) => {
     User.find({}, (err, users) => {
         if (err) throw err;
 
@@ -40,58 +41,48 @@ router.post('/', (req, res) => {
     user.save((err) => {
         if (err) throw err;
 
-        req.session.loggedIn = true;
-        req.session._id = user._id;
-        req.session.name = `${user.firstName} ${user.lastName}`;
+        req.login(user, (err) => {
+            if (err) return next(err);
 
-        res.redirect('/');
+            return res.redirect('/');
+        });
     });
 });
 
 // Edit currently logged in user.
-router.put('/', (req, res) => {
-    if (req.session._id) {
-        User.findById(req.session._id, (err, user) => {
-            if (err) console.error(err);
+router.put('/', auth.isAuthenticated, (req, res) => {
+    User.findById(req.user._id, (err, user) => {
+        if (err) console.error(err);
 
-            // If password change attempt:
-            if (req.body.oldPassword) {
-                user.verifyPassword(req.body.oldPassword, (err, result) => {
-                    if (result) {
-                        user.password = req.body.newPassword;
-                        user.save();
-
-                        res.redirect('/settings');
-                    } else {
-                        res.redirect('/settings');
-                    }
-                });
-            }
-            else {
-                res.redirect('/logout');
-            }
-        });
-    } else {
-        res.redirect('/');
-    }
+        // If password change attempt:
+        if (req.body.oldPassword) {
+            user.verifyPassword(req.body.oldPassword, (err, result) => {
+                if (result) {
+                    user.password = req.body.newPassword;
+                    user.save();
+                    res.redirect('/settings?passwordChange=success');
+                } else {
+                    res.redirect('/settings?passwordChange=fail');
+                }
+            });
+        } else {
+            res.redirect('/');
+        }
+    });
 });
 
 
 // Delete currently logged in user.
-router.delete('/', (req, res) => {
-    if (req.session._id) {
-        User.findByIdAndDelete(req.session._id, (err) => {
-            if (err) console.error(err);
+router.delete('/', auth.isAuthenticated, (req, res) => {
+    User.findByIdAndDelete(req.user._id, (err) => {
+        if (err) console.error(err);
 
-            res.redirect('/logout');
-        });
-    } else {
-        res.redirect('/');
-    }
+        res.redirect('/logout');
+    });
 });
 
 // Get a specific user.
-router.get('/:id', (req, res) => {
+router.get('/:id', auth.isAdmin, (req, res) => {
     User.findById(req.params.id, (err, user) => {
         if (err) throw err;
 
@@ -100,7 +91,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Delete a specific user.
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth.isAdmin, (req, res) => {
     User.findByIdAndDelete(req.params.id, (err) => {
         if (err) throw err;
 

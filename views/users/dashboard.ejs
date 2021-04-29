@@ -15,7 +15,7 @@
         <div class="container py-4 py-md-5">
             <h1 class="text-primary font-slab">
                 <i class="bi bi-cart3"></i>
-                Greetings, <%= name %>
+                Greetings, <%= `${user.firstName} ${user.lastName}` %>
             </h1>
             <p class="lead my-3">
                 Welcome to your dashboard.
@@ -99,9 +99,8 @@
 <%- include('../layouts/footer.ejs'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
-<script src="scripts/bundle.js"></script>
+<script src="/scripts/bundle.js"></script>
 
 <!-- Custom JavaScript -->
-<script src="scripts/placeholder.js"></script>
 </body>
 </html>

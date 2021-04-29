@@ -1,7 +1,9 @@
 /* ---------- MODULES ---------- */
+const auth = require('../middleware/auth');
 const createDOMPurify = require('dompurify');
 const express = require('express');
 const {JSDOM} = require('jsdom');
+const passport = require('passport');
 
 /* ---------- CLASSES & INSTANCES ---------- */
 const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
@@ -11,8 +13,7 @@ const User = require('../models/User');
 /* ---------- CONSTANTS ---------- */
 const DEV_MODE = process.env.LOGGED_IN === 'true'; // To automatically log in after server refresh
 const DEV_USER = {
-    _id: process.env.DEV_USER_ID,
-    name: 'Admin'
+    _id: process.env.DEV_USER_ID // SET THIS FOR FUNCTIONAL DEV_MODE
 };
 
 /* ---------- FUNCTIONS  ---------- */
@@ -21,48 +22,34 @@ const DEV_USER = {
 /* ----- Express ----- */
 router.use(function (req, res, next) {
     if (DEV_MODE) {
-        req.session.loggedIn = true;
-        req.session.name = DEV_USER.name;
-    }
+        User.findById(DEV_USER._id, (err, user) => {
+            if (err) throw err;
 
-    next()
+            req.login(user, (err) => {
+                if (err) return next(err);
+
+                return next();
+            });
+        });
+    } else {
+        next();
+    }
 });
 
 /* ---------- ROUTES ---------- */
-router.get('/', (req, res) => {
-    if (req.session.loggedIn) {
-        res.render('users/dashboard', {name: req.session.name});
-    } else {
-        res.render('landing', {attempt: req.query.attempt});
-    }
+router.get('/', auth.isLoggedIn, (req, res) => {
+    res.render('users/dashboard', {user: req.user});
 });
 
-router.post('/login', async (req, res) => {
-    const user = await User.findByCredentials(req.body.email, req.body.password);
+router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/?login=fail'}));
 
-    if (!user) {
-        res.status(401).redirect('/?attempt=fail'); // 401 = failed authentication
-    } else {
-        req.session.loggedIn = true;
-        req.session._id = user._id;
-        req.session.name = `${user.firstName} ${user.lastName}`;
-
-        res.redirect('/');
-    }
-});
-
-router.get('/logout', (req, res) => {
-    req.session.destroy();
-
+router.get('/logout', auth.isAuthenticated, (req, res) => {
+    req.logout();
     res.redirect('/');
 });
 
-router.get('/settings', (req, res) => {
-    if (req.session.loggedIn) {
-        res.render('users/settings');
-    } else {
-        res.render('landing');
-    }
+router.get('/settings', auth.isAuthenticated, (req, res) => {
+    res.render('users/settings', {attempt: req.query.passwordChange});
 });
 
 module.exports = router;
