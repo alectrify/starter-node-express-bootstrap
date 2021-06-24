@@ -28,12 +28,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now
     }
-}, {collection: 'users'});
+}, {collection: 'users', timestamps: true});
 
 /* ---------- HOOKS ---------- */
 /* ----- Pre ----- */
@@ -50,27 +46,6 @@ userSchema.pre('save', async function (next) {
 /* ----- Instance Methods ----- */
 userSchema.methods.verifyPassword = function(inputPassword, callback) {
     return bcrypt.compare(inputPassword, this.password, callback);
-}
-
-/* ----- Static ----- */
-userSchema.statics.findByCredentials = function (email, password) {
-    return this.findOne({email}, (err, user) => {
-        if (err) throw err;
-
-        if (!user) {
-            return null;
-            // throw new Error('Invalid email');
-        }
-
-        bcrypt.compare(password, user.password, (err, result) => {
-            if (!result) {
-                return null;
-                // throw new Error('Invalid password');
-            } else {
-                return user;
-            }
-        });
-    });
 }
 
 module.exports = mongoose.model('User', userSchema);

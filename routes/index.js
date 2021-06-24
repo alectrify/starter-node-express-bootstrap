@@ -6,23 +6,21 @@ const {JSDOM} = require('jsdom');
 const passport = require('passport');
 
 /* ---------- CLASSES & INSTANCES ---------- */
-const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
 const router = express.Router();
 const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
 const DEV_MODE = process.env.LOGGED_IN === 'true'; // To automatically log in after server refresh
-const DEV_USER = {
-    _id: process.env.DEV_USER_ID // SET THIS FOR FUNCTIONAL DEV_MODE
-};
+const DEV_USER_ID = process.env.DEV_USER_ID;
 
 /* ---------- FUNCTIONS  ---------- */
 
 /* ---------- INITIALIZATION ---------- */
 /* ----- Express ----- */
 router.use(function (req, res, next) {
-    if (DEV_MODE) {
-        User.findById(DEV_USER._id, (err, user) => {
+    // Automatically authenticate if dev mode is on.
+    if (!req.isAuthenticated() && DEV_MODE && DEV_USER_ID) {
+        User.findById(DEV_USER_ID, (err, user) => {
             if (err) throw err;
 
             req.login(user, (err) => {
@@ -37,11 +35,23 @@ router.use(function (req, res, next) {
 });
 
 /* ---------- ROUTES ---------- */
+/* ----- VISITOR ROUTES ----- */
+router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/?login=fail'}));
+
+router.get('/privacy', (req, res) => {
+    res.render('privacy');
+});
+
+router.get('/tos', (req, res) => {
+    res.render('tos');
+});
+
+/* ----- USER ROUTES ----- */
+// GET '/' -
+// With the middleware, if the user is not authenticated, they will be redirected to the front landing page.
 router.get('/', auth.isLoggedIn, (req, res) => {
     res.render('users/dashboard', {user: req.user});
 });
-
-router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/?login=fail'}));
 
 router.get('/logout', auth.isAuthenticated, (req, res) => {
     req.logout();

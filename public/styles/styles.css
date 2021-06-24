@@ -13,8 +13,22 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+/* ----- UTILITIES ----- */
+.center-grid {
+    display: grid;
+    place-items: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .font-slab {
     font-family: 'Roboto Slab', serif;
+}
+
+.fw-medium {
+    font-weight: 500;
 }
 
 /* ---------- INDEX PAGE ---------- */

@@ -11,6 +11,7 @@ const router = express.Router();
 const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
+
 /* ---------- FUNCTIONS ---------- */
 
 /* ---------- INITIALIZATION ---------- */
@@ -26,7 +27,7 @@ router.get('/', auth.isAdmin, (req, res) => {
 });
 
 // Create a user.
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     const fields = [req.body.firstName, req.body.lastName, req.body.email, req.body.password];
 
     const [firstName, lastName, email, password] = _.map(fields, DOMPurify.sanitize);
@@ -39,7 +40,7 @@ router.post('/', (req, res) => {
     });
 
     user.save((err) => {
-        if (err) throw err;
+        if (err) return res.status(409).redirect('/?login=username+taken');
 
         req.login(user, (err) => {
             if (err) return next(err);

@@ -92,6 +92,15 @@
         </div>
     <% } %>
 
+    <!-- Existing Email Alert -->
+    <% if (locals.attempt && attempt === 'username taken') { %>
+        <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25"
+             role="alert">
+            <strong>The email you entered is already registered!</strong> Please try again.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+
     <!-- Sign Up Modal -->
     <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
