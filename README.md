@@ -33,6 +33,8 @@ Use this template to initialize your Express, MongoDB, and Node.js web applicati
 
 ### Scripts
 Run `npm install` in the root directory to install packages.  
+Run `npm run fix` to run ESLint fixes on your backend Javascript.  
+Run `npm run lint` to run ESLint analysis on your backend Javascript.  
 Run `npm run sass` to compile Bootstrap CSS from the `src` folder.  
 Run `npm run build` to compile CSS and Javascript from the `src` folder.  
 Run `npm run build:css` to compile Bootstrap CSS and postprocess vendor prefixes in `public/styles/styles.css`.  
@@ -62,6 +64,7 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 
 ### Packages Included
 * @fortawesome/fontawesome-free - Font Awesome Icons
+* @sendgrid/mail - email functionality
 * autoprefixer - adding vendor prefixes to css
 * bcryptjs - password-hashing
 * bootstrap & @popperjs/core - styling
@@ -71,17 +74,21 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 * dompurify & jsdom - sanitization
 * dotenv - environment variables
 * ejs - template engine
+* eslint - linting code
 * express - essential
+* express-flash - error message flashing
 * express-session - sessions
 * fs-extra - updating Font Awesome icons
 * jquery - dynamic page elements
 * lodash - coding utility
 * method-override - enabling methods for the client
 * mongoose - database functionality
+* multer - backend file upload functionality
 * nodemon - development quality of life
 * passport - authentication
 * postcss & postcss-cli - CSS postprocessing (ex: autoprefixer)
 * sass - customizing and compiling Bootstrap
+* sharp - image processing
 * validator - formatting validation
 * webpack & webpack-cli - JS postprocessing
 

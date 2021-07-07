@@ -1,20 +1,43 @@
 /* ---------- MODULES ---------- */
 const _ = require('lodash');
 const auth = require('../middleware/auth');
-const createDOMPurify = require('dompurify');
 const express = require('express');
-const {JSDOM} = require('jsdom');
+const multer = require('multer');
+const sgMail = require('@sendgrid/mail');
+const sharp = require('sharp');
 
 /* ---------- CLASSES & INSTANCES ---------- */
-const DOMPurify = createDOMPurify(new JSDOM('').window); // Use DOMPurify.sanitize(dirty) on inputs
 const router = express.Router();
 const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
+const SIGNUP_EMAIL_MSG = {
+    text: 'Welcome to ThinkCorp.',
+    html: '<h1>Welcome to ThinkCorp.</h1>'
+};
 
 /* ---------- FUNCTIONS ---------- */
 
 /* ---------- INITIALIZATION ---------- */
+/* ----- SendGrid ------ */
+sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Store API_KEY in .env file
+
+/* ----- Multer ----- */
+const upload = multer({
+    fileFilter: function (req, file, cb) {
+        const fileTypes = /pjp|jpg|pjpeg|jpeg|jfif|png|webp/;
+        const validMimeType = fileTypes.test(file.mimetype);
+
+        if (validMimeType) {
+            cb(null, true);
+        }
+        else {
+            req.flash('dashboard', `File upload only supports ${fileTypes}. Head to the Profile page to try another upload.`);
+            cb(null, false);
+        }
+    },
+
+});
 
 /* ---------- ROUTES ---------- */
 // Get all users.
@@ -27,20 +50,49 @@ router.get('/', auth.isAdmin, (req, res) => {
 });
 
 // Create a user.
-router.post('/', (req, res, next) => {
-    const fields = [req.body.firstName, req.body.lastName, req.body.email, req.body.password];
+router.post('/', upload.single('profile'), async (req, res, next) => {
+    let userObj = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password
+    };
 
-    const [firstName, lastName, email, password] = _.map(fields, DOMPurify.sanitize);
+    if (req.file) {
+        userObj.profile = {photo: await sharp(req.file.buffer).resize(400, 400).toBuffer()};
+    }
 
-    const user = new User({
-        firstName,
-        lastName,
-        email,
-        password
-    });
+    const user = new User(userObj);
 
     user.save((err) => {
-        if (err) return res.status(409).redirect('/?login=username+taken');
+        // Check for invalid user input.
+        if (err) {
+            if (err.code === 11000) {
+                // Email taken.
+                req.flash('landing', 'The email you entered is already registered!');
+            }
+            else {
+                // Validation error (ex: invalid email)
+                req.flash('landing', err.message);
+            }
+            return res.status(409).redirect('/');
+        }
+
+        // Send email (requires SendGrid API key)
+        /*sgMail.send({
+            to: user.email,
+            from: '',
+            subject: 'Account confirmation: ThinkCorp',
+            text: SIGNUP_EMAIL_MSG.text,
+            html: SIGNUP_EMAIL_MSG.html
+        }).then(() => {
+        }, error => {
+            console.error(error);
+
+            if (error.response) {
+                console.error(error.response.body)
+            }
+        });*/
 
         req.login(user, (err) => {
             if (err) return next(err);
@@ -57,16 +109,18 @@ router.put('/', auth.isAuthenticated, (req, res) => {
 
         // If password change attempt:
         if (req.body.oldPassword) {
-            user.verifyPassword(req.body.oldPassword, (err, result) => {
-                if (result) {
+            user.verifyPassword(req.body.oldPassword, (err, success) => {
+                if (success) {
                     user.password = req.body.newPassword;
                     user.save();
                     res.redirect('/settings?passwordChange=success');
-                } else {
+                }
+                else {
                     res.redirect('/settings?passwordChange=fail');
                 }
             });
-        } else {
+        }
+        else {
             res.redirect('/');
         }
     });

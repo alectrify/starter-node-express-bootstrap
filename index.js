@@ -6,6 +6,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
 const favicon = require('serve-favicon');
+const flash = require('express-flash');
 const fs = require('fs-extra');
 const helmet = require('helmet');
 const methodOverride = require('method-override');
@@ -17,8 +18,6 @@ const session = require('express-session');
 
 /* ---------- CLASSES & INSTANCES ---------- */
 const app = express();
-const LocalStrategy = require('passport-local').Strategy;
-const User = require('./models/User');
 
 /* ---------- CONSTANTS ---------- */
 const DB_NAME = 'thinkcorpDB';
@@ -28,6 +27,7 @@ const PORT = process.env.PORT || 3000;
 
 /* ---------- FUNCTIONS ---------- */
 const passportInit = require('./auth/init');
+const passportLocal = require('./auth/local');
 
 function updateFontAwesome() {
     fs.copy('./node_modules/@fortawesome/fontawesome-free/css/all.min.css', 'public/styles/fontawesome.css', (err) => {
@@ -49,7 +49,7 @@ if (DOTENV_RESULT.error) {
 
 /* ----- Express ----- */
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public')); // URL path begins at /public.
+app.use('/', express.static(path.join(__dirname, 'public'))); // URL path begins at /public.
 
 if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1);
@@ -66,6 +66,7 @@ app.use(
         contentSecurityPolicy: false,
     })
 );
+app.use(flash());
 app.use(methodOverride('_method')); // Process POST request suffixed with ?_method=DELETE or ?_method=PUT.
 app.use(morgan('dev'));
 app.use(session({
@@ -92,24 +93,7 @@ mongoose.connect(MONGO_URI, {
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy({
-        usernameField: 'email'
-    },
-    function (email, password, done) {
-        User.findOne({email: email}, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                return done(null, false);
-            }
-            if (!user.verifyPassword(password)) {
-                return done(null, false);
-            }
-            return done(null, user);
-        });
-    }
-));
+passport.use(passportLocal());
 passportInit();
 
 /* ---------- ROUTES ---------- */
@@ -125,10 +109,10 @@ app.use((req, res) => {
             res.render('404');
         },
         json: () => {
-            res.json({error: 'Not found'})
+            res.json({error: 'Not found'});
         },
         default: () => {
-            res.type('txt').send('Not found')
+            res.type('txt').send('Not found');
         }
     });
 });

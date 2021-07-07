@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
+const sharp = require('sharp');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
@@ -19,15 +20,28 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         trim: true,
         unique: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Email is invalid');
-            }
+        validate: {
+            validator: function (value) {
+                return validator.isEmail(value);
+            },
+            message: props => `${props.value} is not a valid email!`
         }
     },
     password: {
         type: String,
         required: true
+    },
+    plan: {
+        type: String,
+        enum: {
+            values: ['Free', 'Premium', 'Admin'],
+            message: '{VALUE} is not supported'
+        },
+        default: 'Free'
+    },
+    profile: {
+        type: {photo: Buffer}
+        // default: {photo: [declared below in 'save' hook]}
     }
 }, {collection: 'users', timestamps: true});
 
@@ -39,13 +53,17 @@ userSchema.pre('save', async function (next) {
         this.password = await bcrypt.hash(this.password, 10);
     }
 
+    if (!this.isModified('profile.photo')) {
+        this.profile = {photo: await sharp('public/assets/profile-photo.png').resize(400, 400).toBuffer()};
+    }
+
     next();
 });
 
 /* ---------- FUNCTIONS ---------- */
 /* ----- Instance Methods ----- */
-userSchema.methods.verifyPassword = function(inputPassword, callback) {
+userSchema.methods.verifyPassword = function (inputPassword, callback) {
     return bcrypt.compare(inputPassword, this.password, callback);
-}
+};
 
 module.exports = mongoose.model('User', userSchema);

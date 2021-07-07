@@ -28,7 +28,8 @@
                                 Options
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item <%= (locals.active === 'profile') ? 'active' : '' %>"
+                                       href="/profile">Profile</a></li>
                                 <li><a class="dropdown-item <%= (locals.active === 'settings') ? 'active' : '' %>"
                                        href="/settings">Settings</a></li>
                                 <li>
@@ -92,15 +93,6 @@
         </div>
     <% } %>
 
-    <!-- Existing Email Alert -->
-    <% if (locals.attempt && attempt === 'username taken') { %>
-        <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25"
-             role="alert">
-            <strong>The email you entered is already registered!</strong> Please try again.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <% } %>
-
     <!-- Sign Up Modal -->
     <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -110,7 +102,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="signupForm" action="/users" method="post">
+                    <form id="signupForm" action="/users" method="post" enctype="multipart/form-data">
                         <div class="form-floating mb-3">
                             <input type="text" id="signupFirstName" class="form-control" name="firstName"
                                    placeholder="First Name" required>
@@ -130,6 +122,10 @@
                             <input type="password" id="signupPassword" class="form-control" name="password"
                                    placeholder="Password" required>
                             <label for="signupPassword" class="form-label">Password</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="profile" class="form-label">Profile Photo</label>
+                            <input class="form-control" type="file" accept="image/jpeg,image/png,image/webp" id="profile" name="profile">
                         </div>
 
                         <button type="submit" class="btn btn-lg btn-primary w-100" form="signupForm">Sign Up</button>

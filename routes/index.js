@@ -1,8 +1,6 @@
 /* ---------- MODULES ---------- */
 const auth = require('../middleware/auth');
-const createDOMPurify = require('dompurify');
 const express = require('express');
-const {JSDOM} = require('jsdom');
 const passport = require('passport');
 
 /* ---------- CLASSES & INSTANCES ---------- */
@@ -29,12 +27,18 @@ router.use(function (req, res, next) {
                 return next();
             });
         });
-    } else {
+    }
+    else {
         next();
     }
 });
 
 /* ---------- ROUTES ---------- */
+// With the middleware, if the user is not authenticated, they will be redirected to the front landing page.
+router.get('/', auth.isLoggedIn, (req, res) => {
+    res.render('users/dashboard', {user: req.user, flash: req.flash('dashboard')});
+});
+
 /* ----- VISITOR ROUTES ----- */
 router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/?login=fail'}));
 
@@ -47,15 +51,13 @@ router.get('/tos', (req, res) => {
 });
 
 /* ----- USER ROUTES ----- */
-// GET '/' -
-// With the middleware, if the user is not authenticated, they will be redirected to the front landing page.
-router.get('/', auth.isLoggedIn, (req, res) => {
-    res.render('users/dashboard', {user: req.user});
-});
-
 router.get('/logout', auth.isAuthenticated, (req, res) => {
     req.logout();
     res.redirect('/');
+});
+
+router.get('/profile', auth.isAuthenticated, (req, res) => {
+    res.render('users/profile', {user: req.user});
 });
 
 router.get('/settings', auth.isAuthenticated, (req, res) => {

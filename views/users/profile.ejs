@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('../layouts/head.ejs'); %>
+
+    <title>ThinkCorp - Profile</title>
+</head>
+
+<body>
+<%- include('../layouts/navbar', {active: 'profile', view: 'user'}); %>
+
+<main>
+    <section class="bg-light">
+        <div class="container py-4 py-md-5">
+            <h1 class="font-slab mb-4">
+                <i class="fa fa-user"></i>
+                Profile
+            </h1>
+
+            <!-- Profile Photo -->
+            <div class="row mb-3">
+                <div class="col-2 offset-5">
+                    <img src="data:image;base64,<%= user.profile.photo.toString('base64') %>" alt=""
+                         class="img-fluid rounded-circle border border-3 border-dark">
+                </div>
+            </div>
+
+            <!-- Name -->
+            <h2 class="text-center"><%= `${user.firstName} ${user.lastName}` %></h2>
+        </div>
+    </section>
+</main>
+
+<%- include('../layouts/footer.ejs'); %>
+
+<!-- Bundled JS: Bootstrap, jQuery, Lodash -->
+<script src="/scripts/bundle.js"></script>
+
+<!-- Custom JavaScript -->
+<script src="/scripts/landing-init.js"></script>
+</body>
+</html>

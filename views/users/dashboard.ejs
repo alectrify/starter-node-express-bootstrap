@@ -9,6 +9,15 @@
 <body>
 <%- include('../layouts/navbar', {view: 'user'}); %>
 
+<!-- Flash Alert -->
+<% if (flash.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25"
+         role="alert">
+        <strong><%= flash %></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
 <main>
     <!-- Hero Section -->
     <section id="hero" class="text-center bg-light py-md-4">
