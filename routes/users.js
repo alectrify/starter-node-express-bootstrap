@@ -69,11 +69,11 @@ router.post('/', upload.single('profile'), async (req, res, next) => {
         if (err) {
             if (err.code === 11000) {
                 // Email taken.
-                req.flash('landing', 'The email you entered is already registered!');
+                req.flash('error', 'The email you entered is already registered!');
             }
             else {
                 // Validation error (ex: invalid email)
-                req.flash('landing', err.message);
+                req.flash('error', err.message);
             }
             return res.status(409).redirect('/');
         }
@@ -113,11 +113,13 @@ router.put('/', auth.isAuthenticated, (req, res) => {
                 if (success) {
                     user.password = req.body.newPassword;
                     user.save();
-                    res.redirect('/settings?passwordChange=success');
+                    req.flash('settings', 'Password change succeeded!');
                 }
                 else {
-                    res.redirect('/settings?passwordChange=fail');
+                    req.flash('settings', 'Password change failed! Incorrect old password was entered.');
                 }
+
+                res.redirect('/settings');
             });
         }
         else {

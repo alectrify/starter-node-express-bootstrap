@@ -14,21 +14,34 @@ body {
 }
 
 /* ----- UTILITIES ----- */
+/* --- POSITION --- */
+.end-grid {
+    display: grid !important;
+    place-items: end center !important;
+}
+
 .center-grid {
-    display: grid;
-    place-items: center;
+    display: grid !important;
+    place-items: center !important;
 }
 
-.cursor-pointer {
-    cursor: pointer;
+/* --- SIZING --- */
+.w-33 {
+    width: 33% !important;
 }
 
+/* --- TYPOGRAPHY --- */
 .font-slab {
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Roboto Slab', serif !important;
 }
 
 .fw-medium {
-    font-weight: 500;
+    font-weight: 500 !important;
+}
+
+/* --- MISC --- */
+.cursor-pointer {
+    cursor: pointer !important;
 }
 
 /* ---------- INDEX PAGE ---------- */
@@ -50,6 +63,9 @@ body {
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+    .w-md-25 {
+        width: 25% !important;
+    }
 }
 
 /* Large devices (desktops, 992px and up) */

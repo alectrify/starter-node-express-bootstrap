@@ -6,7 +6,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
 const favicon = require('serve-favicon');
-const flash = require('express-flash');
+const flash = require('connect-flash');
 const fs = require('fs-extra');
 const helmet = require('helmet');
 const methodOverride = require('method-override');
@@ -40,7 +40,7 @@ function updateFontAwesome() {
 }
 
 /* ---------- INITIALIZATION ---------- */
-// updateFontAwesome();
+//updateFontAwesome();
 
 /* ----- Dotenv ----- */
 if (DOTENV_RESULT.error) {
@@ -99,6 +99,7 @@ passportInit();
 /* ---------- ROUTES ---------- */
 app.use('/', require('./routes/index'));
 // app.use('/auth', require('./routes/auth'));
+app.use('/posts', require('./routes/posts'));
 app.use('/users', require('./routes/users'));
 
 // Redirect invalid pages

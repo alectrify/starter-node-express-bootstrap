@@ -1,4 +1,4 @@
-const DEV_MODE = process.env.LOGGED_IN === 'true'; // To automatically log in after server refresh
+const DEV_VIEW_MODE = process.env.DEV_VIEW_MODE; // To automatically log in after server refresh
 
 let authObj = {};
 
@@ -7,8 +7,7 @@ authObj.isLoggedIn = (req, res, next) => {
         next();
     }
     else {
-        res.status(401);
-        res.render('landing', {attempt: req.query.login, flash: req.flash('landing')});
+        res.render('landing', {flash: req.flash('error')});
     }
 };
 
@@ -23,7 +22,7 @@ authObj.isAuthenticated = (req, res, next) => {
 };
 
 authObj.isAdmin = (req, res, next) => {
-    if (DEV_MODE || (req.isAuthenticated() && req.user.plan === 'Admin')) {
+    if (DEV_VIEW_MODE === 'admin' || (req.isAuthenticated() && req.user.plan === 'Admin')) {
         next();
     }
     else {

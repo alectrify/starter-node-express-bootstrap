@@ -11,8 +11,9 @@ Use this template to initialize your Express, MongoDB, and Node.js web applicati
 
 ### Initialization & Setup
 1. Create a `.env` file to hold environment variables. ([dotenv module](https://www.npmjs.com/package/dotenv))
-   1. LOGGED_IN=true - log in upon server refresh for user development
+   1. DEV_VIEW_MODE=\[visitor, user, or admin\] - log in upon server refresh for user development
    2. DEV_USER_ID=\[MongoDB _id\] - MongoDB _id of a record to automatically log in with 
+   3. SENDGRID_API_KEY=\[SendGrid API Key\] - SendGrid API key for email functionality
 2. Edit the name of your database by editing the `DB_NAME` constant in `index.js`.
 3. Edit metadata information for SEO and data accuracy in:
    * `package.json`
@@ -97,7 +98,6 @@ Run `npm run build:js` to compile (w/ webpack) JavaScript libraries from the `sr
 * E-mail encryption and forgot password functionality
 * More detailed starter code
 * Additional example pages
-* Passport.js authentication
 
 ## 🗒️ Additional Resources
 ### Best Practices

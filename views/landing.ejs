@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('layouts/head.ejs'); %>
+    <%- include('layouts/head'); %>
 
     <!-- Home Specific Tags -->
     <meta name="description" content="Express, MongoDB, and Node.js template stylized with Bootstrap.">
@@ -28,15 +28,6 @@
 <body>
 <%- include('layouts/navbar'); %>
 
-<!-- Flash Alert (Sign Up) -->
-<% if (flash.length > 0) { %>
-    <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25"
-         role="alert">
-        <strong><%= flash %></strong> Please try again.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-
 <main>
     <!-- Hero Section -->
     <section id="hero">
@@ -48,10 +39,10 @@
                         Creating inventive solutions for complex problems.
                     </p>
                     <p class="mb-0">
-                        <button type="button" class="btn btn-lg btn-primary me-3" data-bs-toggle="modal"
+                        <button type="button" class="btn-pill btn-lg btn-primary me-3" data-bs-toggle="modal"
                                 data-bs-target="#signupModal">Get Started
                         </button>
-                        <a class="btn btn-lg btn-info" href="#principles">Learn more</a>
+                        <a class="btn-pill btn-lg btn-info" href="#principles">Learn more</a>
                     </p>
                 </div>
                 <div class="col-md-5">
@@ -149,7 +140,7 @@
     </section>
 </main>
 
-<%- include('layouts/footer.ejs'); %>
+<%- include('layouts/footer'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
 <script src="/scripts/bundle.js"></script>

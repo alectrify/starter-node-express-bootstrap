@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('../layouts/head'); %>
+
+    <title>ThinkCorp - <%= post.title %></title>
+</head>
+
+<body class="bg-light">
+<%- include('../layouts/navbar', {active: 'posts'}); %>
+
+<main>
+    <section>
+        <div class="container py-4 py-md-5">
+            <h1 class="font-slab">
+                <%= post.title %>
+            </h1>
+            <h2 class="text-muted">
+                <%= post.description %>
+            </h2>
+            <h4 class="mb-4">
+                by <%= post.author.firstName %> <%= post.author.lastName %>
+            </h4>
+
+            <% if (user.email === post.author.email) { %>
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#editModal">
+                    <i class="fas fa-pencil-alt"></i>
+                    Edit Post
+                </button>
+                <br>
+            <% } %>
+
+            <img class="w-25" src="data:image;base64,<%= post.image.toString('base64') %>" alt="<%= post.title %>">
+
+            <p>
+                <%= post.content %>
+            </p>
+        </div>
+    </section>
+</main>
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Create a Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm" method="post" action="/posts?_method=PUT" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="createInputTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="createInputTitle" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createInputDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="createInputDescription" rows="2" name="description"
+                                  required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createInputContent" class="form-label">Content</label>
+                        <textarea class="form-control" id="createInputContent" rows="3" name="content"
+                                  required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createInputImage" class="form-label">Image</label>
+                        <input class="form-control" type="file" accept="image/jpeg,image/png,image/webp"
+                               id="createInputImage" name="image">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" form="createForm">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer'); %>
+
+<!-- Bundled JS: Bootstrap, jQuery, Lodash -->
+<script src="/scripts/bundle.js"></script>
+
+<!-- Custom JavaScript -->
+<script src="/scripts/landing-init.js"></script>
+</body>
+</html>

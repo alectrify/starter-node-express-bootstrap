@@ -1,4 +1,5 @@
 /* ---------- MODULES ---------- */
+const _ = require('lodash');
 const auth = require('../middleware/auth');
 const express = require('express');
 const passport = require('passport');
@@ -8,7 +9,7 @@ const router = express.Router();
 const User = require('../models/User');
 
 /* ---------- CONSTANTS ---------- */
-const DEV_MODE = process.env.LOGGED_IN === 'true'; // To automatically log in after server refresh
+const DEV_VIEW_MODE = process.env.DEV_VIEW_MODE; // To automatically log in after server refresh
 const DEV_USER_ID = process.env.DEV_USER_ID;
 
 /* ---------- FUNCTIONS  ---------- */
@@ -17,7 +18,7 @@ const DEV_USER_ID = process.env.DEV_USER_ID;
 /* ----- Express ----- */
 router.use(function (req, res, next) {
     // Automatically authenticate if dev mode is on.
-    if (!req.isAuthenticated() && DEV_MODE && DEV_USER_ID) {
+    if (!req.isAuthenticated() && _.includes(['user', 'admin'], DEV_VIEW_MODE) && DEV_USER_ID) {
         User.findById(DEV_USER_ID, (err, user) => {
             if (err) throw err;
 
@@ -40,7 +41,7 @@ router.get('/', auth.isLoggedIn, (req, res) => {
 });
 
 /* ----- VISITOR ROUTES ----- */
-router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/?login=fail'}));
+router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/', failureFlash: 'Incorrect credentials.'}));
 
 router.get('/privacy', (req, res) => {
     res.render('privacy');
@@ -61,7 +62,7 @@ router.get('/profile', auth.isAuthenticated, (req, res) => {
 });
 
 router.get('/settings', auth.isAuthenticated, (req, res) => {
-    res.render('users/settings', {attempt: req.query.passwordChange});
+    res.render('users/settings', {user: req.user, flash: req.flash('settings')});
 });
 
 module.exports = router;

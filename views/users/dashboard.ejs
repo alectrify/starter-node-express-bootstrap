@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('../layouts/head.ejs'); %>
+    <%- include('../layouts/head'); %>
 
     <title>ThinkCorp - Home</title>
 </head>
 
 <body>
-<%- include('../layouts/navbar', {view: 'user'}); %>
+<%- include('../layouts/navbar'); %>
 
 <!-- Flash Alert -->
 <% if (flash.length > 0) { %>
-    <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25"
+    <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-md-25"
          role="alert">
         <strong><%= flash %></strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -105,7 +105,7 @@
     </section>
 </main>
 
-<%- include('../layouts/footer.ejs'); %>
+<%- include('../layouts/footer'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
 <script src="/scripts/bundle.js"></script>

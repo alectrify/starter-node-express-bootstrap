@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
         },
         default: 'Free'
     },
+    posts: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: []
+    },
     profile: {
         type: {photo: Buffer}
         // default: {photo: [declared below in 'save' hook]}

@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('../layouts/head.ejs'); %>
+    <%- include('../layouts/head'); %>
 
     <title>ThinkCorp - Settings</title>
 </head>
 
-<body>
-<%- include('../layouts/navbar', {active: 'settings', view: 'user'}); %>
+<body class="bg-light">
+<%- include('../layouts/navbar', {active: 'settings'}); %>
 
 <main>
-    <section class="bg-light">
+    <section>
         <div class="container py-4 py-md-5">
             <h1 class="font-slab mb-4">
                 <i class="fa fa-cogs"></i>
@@ -76,23 +76,18 @@
     </div>
 </div>
 
-<!-- Failed Password Change Alert -->
-<% if (locals.attempt && attempt === 'fail') { %>
-    <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25" role="alert">
-        <strong>Password change failed!</strong> Incorrect old password was entered.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+<!-- Flash Alert -->
+<% if (flash.length > 0) { %>
+    <% flash.forEach((message) => { %>
+        <div class="alert alert-info alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-md-25"
+             role="alert">
+            <strong><%= message %></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% }); %>
 <% } %>
 
-<!-- Successful Password Change Alert -->
-<% if (locals.attempt && attempt === 'success') { %>
-    <div class="alert alert-success alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25" role="alert">
-        <strong>Password change succeeded!</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-
-<%- include('../layouts/footer.ejs'); %>
+<%- include('../layouts/footer'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
 <script src="/scripts/bundle.js"></script>

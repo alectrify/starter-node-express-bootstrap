@@ -15,35 +15,9 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <% if (locals.view && view === 'user') { %>
-                    <!-- User's Navbar -->
+                <% if (!locals.user) { %>
 
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link <%= (locals.active === 'posts') ? 'active' : '' %>" href="#">Posts</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                Options
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item <%= (locals.active === 'profile') ? 'active' : '' %>"
-                                       href="/profile">Profile</a></li>
-                                <li><a class="dropdown-item <%= (locals.active === 'settings') ? 'active' : '' %>"
-                                       href="/settings">Settings</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="/logout"><i class="fa fa-sign-out-alt"></i> Log
-                                        out</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                <% } else { %>
                     <!-- Visitor's Navbar -->
-
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link <%= (locals.active === 'blog') ? 'active' : '' %>" href="#">Blog</a>
@@ -76,21 +50,49 @@
                         </li>
                     </ul>
 
+                <% } else { %>
+
+                    <!-- User's Navbar -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link <%= (locals.active === 'posts') ? 'active' : '' %>" href="/posts">Posts</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Options
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item <%= (locals.active === 'profile') ? 'active' : '' %>"
+                                       href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item <%= (locals.active === 'settings') ? 'active' : '' %>"
+                                       href="/settings">Settings</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="/logout"><i class="fa fa-sign-out-alt"></i> Log
+                                        out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
                 <% } %>
             </div>
         </div>
     </nav>
 </header>
 
-<% if (!locals.view || view !== 'user') { %>
+<% if (!locals.user) { %>
 
-    <!-- Failed Login Alert -->
-    <% if (locals.attempt && attempt === 'fail') { %>
-        <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25"
-             role="alert">
-            <strong>Login failed!</strong> Please try again.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <!-- Flash Alert -->
+    <% if (flash.length > 0) { %>
+        <% flash.forEach((message) => { %>
+            <div class="alert alert-danger alert-dismissible fade show fixed-top mt-3 ms-3 d-inline-block w-25"
+                 role="alert">
+                <strong><%= message %></strong> Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% }); %>
     <% } %>
 
     <!-- Sign Up Modal -->
@@ -125,7 +127,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="profile" class="form-label">Profile Photo</label>
-                            <input class="form-control" type="file" accept="image/jpeg,image/png,image/webp" id="profile" name="profile">
+                            <input class="form-control" type="file" accept="image/jpeg,image/png,image/webp"
+                                   id="profile" name="profile">
                         </div>
 
                         <button type="submit" class="btn btn-lg btn-primary w-100" form="signupForm">Sign Up</button>
