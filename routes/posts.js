@@ -23,8 +23,7 @@ const upload = multer({
 
         if (validMimeType) {
             cb(null, true);
-        }
-        else {
+        } else {
             req.flash('posts', `File upload only supports ${fileTypes}. Try again with a valid file type.`);
             cb(null, false);
         }
@@ -33,7 +32,7 @@ const upload = multer({
 });
 
 /* ---------- ROUTES ---------- */
-// Get all users.
+// Page for displaying posts.
 router.get('/', auth.isAuthenticated, (req, res) => {
     Post.find({}).populate('author').exec((err, posts) => {
         if (err) throw err;
@@ -42,7 +41,7 @@ router.get('/', auth.isAuthenticated, (req, res) => {
     });
 });
 
-// Create a user.
+// Create a post.
 router.post('/', auth.isAuthenticated, upload.single('image'), async (req, res, next) => {
     let postObj = {
         author: req.user._id,
@@ -64,11 +63,11 @@ router.post('/', auth.isAuthenticated, upload.single('image'), async (req, res, 
             return res.status(409).redirect('/posts');
         }
 
-        return res.redirect('/posts');
+        return res.redirect(`/posts/${post._id}`);
     });
 });
 
-// Get all users.
+// Get all posts.
 router.get('/:id', auth.isAuthenticated, (req, res) => {
     Post.findById(req.params.id).populate('author').exec((err, post) => {
         if (err) throw err;
@@ -77,16 +76,26 @@ router.get('/:id', auth.isAuthenticated, (req, res) => {
     });
 });
 
-// Edit currently logged in user.
-router.put('/:id', auth.isAuthenticated, (req, res) => {
-    Post.findByIdAndUpdate(req.params.id, req.body);
+// Edit post.
+router.put('/:id', auth.isAuthenticated, auth.isPostAuthor, upload.single('image'), async (req, res) => {
+    if (req.file) {
+        req.body.image = await sharp(req.file.buffer).resize(400, 400).toBuffer();
+    }
 
-    res.redirect('/posts');
+    console.log(req.body);
+
+    await Post.findByIdAndUpdate(req.params.id, req.body, (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+
+    res.redirect(`/posts/${req.params.id}`);
 });
 
 
-// Delete currently logged in user.
-router.delete('/:id', auth.isAuthenticated, (req, res) => {
+// Delete post.
+router.delete('/:id', auth.isAuthenticated, auth.isPostAuthor, (req, res) => {
     Post.findByIdAndDelete(req.params.id, (err) => {
         if (err) console.error(err);
 
@@ -94,8 +103,8 @@ router.delete('/:id', auth.isAuthenticated, (req, res) => {
     });
 });
 
-// Get a specific user.
-router.get('/:id', auth.isAdmin, (req, res) => {
+// Get a specific post.
+router.get('/admin/:id', auth.isAdmin, (req, res) => {
     Post.findById(req.params.id, (err, post) => {
         if (err) throw err;
 

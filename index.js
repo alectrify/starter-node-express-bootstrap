@@ -67,7 +67,7 @@ app.use(
     })
 );
 app.use(flash());
-app.use(methodOverride('_method')); // Process POST request suffixed with ?_method=DELETE or ?_method=PUT.
+app.use(methodOverride('_method', {methods: ['POST', 'GET']})); // Process POST request suffixed with ?_method=DELETE or ?_method=PUT.
 app.use(morgan('dev'));
 app.use(session({
     name: 'qid',

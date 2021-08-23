@@ -12,6 +12,11 @@
 <main>
     <section>
         <div class="container py-4 py-md-5">
+            <a href="/posts" class="link-info text-decoration-none fw-bold h5">
+                <i class="fas fa-angle-left"></i>
+                Return to Posts
+            </a>
+            <hr>
             <h1 class="font-slab">
                 <%= post.title %>
             </h1>
@@ -23,14 +28,20 @@
             </h4>
 
             <% if (user.email === post.author.email) { %>
-                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#editModal">
+                <button class="btn btn-primary mb-3 me-2" data-bs-toggle="modal" data-bs-target="#editModal">
                     <i class="fas fa-pencil-alt"></i>
                     Edit Post
+                </button>
+                <button class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="fas fa-trash"></i>
+                    Delete Post
                 </button>
                 <br>
             <% } %>
 
-            <img class="w-25" src="data:image;base64,<%= post.image.toString('base64') %>" alt="<%= post.title %>">
+            <% if (post.image) { %>
+                <img class="w-25" src="data:image;base64,<%= post.image.toString('base64') %>" alt="<%= post.title %>">
+            <% } %>
 
             <p>
                 <%= post.content %>
@@ -39,29 +50,31 @@
     </section>
 </main>
 
-<!-- Modal -->
+<!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Create a Post</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Post</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="createForm" method="post" action="/posts?_method=PUT" enctype="multipart/form-data">
+                <form id="createForm" method="post" action="/posts/<%= post._id %>?_method=PUT"
+                      enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="createInputTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="createInputTitle" name="title" required>
+                        <input type="text" class="form-control" id="createInputTitle" name="title"
+                               value="<%= post.title %>" required>
                     </div>
                     <div class="mb-3">
                         <label for="createInputDescription" class="form-label">Description</label>
                         <textarea class="form-control" id="createInputDescription" rows="2" name="description"
-                                  required></textarea>
+                                  required><%= post.description %></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="createInputContent" class="form-label">Content</label>
                         <textarea class="form-control" id="createInputContent" rows="3" name="content"
-                                  required></textarea>
+                                  required><%= post.content %></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="createInputImage" class="form-label">Image</label>
@@ -78,12 +91,38 @@
     </div>
 </div>
 
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Delete Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this post? All of its contents will be permanently lost.
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="/posts/<%= post._id %>?_method=DELETE">I understand, delete this post</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%- include('../layouts/footer'); %>
 
 <!-- Bundled JS: Bootstrap, jQuery, Lodash -->
 <script src="/scripts/bundle.js"></script>
 
+<!-- Page Initialization Utilities -->
+<script src="/scripts/util.js">
+    // shortPageFooter() - Fix the footer to the bottom for short pages
+</script>
+
 <!-- Custom JavaScript -->
-<script src="/scripts/landing-init.js"></script>
+<script>
+    shortPageFooter();
+</script>
 </body>
 </html>
